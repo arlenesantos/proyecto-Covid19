@@ -56,7 +56,7 @@ const renderTable = (countries) => {
         <td>${numberWithDots(country.confirmed)}</td>
         <td>${numberWithDots(country.deaths)}</td>
         <td>${numberWithDots(country.recovered)}</td>
-        <td><a id="showModal" href="#">Ver detalle</a></td>
+        <td data-toggle="modal" data-target="#modal"><button id="${country.location}" type="button" class="btn btn-secondary">Ver detalle</button></td>
         `;
         table.appendChild(tr);
     })
@@ -66,9 +66,62 @@ const renderTable = (countries) => {
     mainTable.classList.remove("d-none");
 }
 
-const chartPais = () => {
-    const ctx = document.getElementById('covidPais');
+let myChartPais = null;
+const chartPais = (country) => {
+        
+    const chartDatos = {
+        labels: ['Activos', 'Confirmados', 'Muertos', 'Recuperados'], 
+        datasets: [
+            {
+                label: '# de casos',
+                data: [country.active, country.confirmed, country.deaths, country.recovered],
+                borderColor: 'red',
+                backgroundColor: ['red','yellow', 'gray', 'green'],
+            }
+        ],
+    };
+    
+    const ctx = document.getElementById('covidPais').getContext('2d');
+
+    if (myChartPais) {
+        myChartPais.destroy();
+    }
+    
+    myChartPais = new Chart(ctx, {
+        type: 'bar',
+        data: chartDatos,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: "Países con Covid-19",
+                    font: {
+                        size: 20,
+                    }
+                },
+            },
+        },
+    });
 }
+
+const activarModal = async (country) => {
+    const response = await fetch(`http://localhost:3000/api/countries/${country}`);
+    const { data } = await response.json();
+
+    const modalTitle = document.querySelector(".modal-title");
+    modalTitle.innerHTML = `${data.location}`;
+    chartPais(data)
+}
+
+const mainTable = document.getElementById("mainTable");
+mainTable.addEventListener('click', (event) => {
+    if(event.target.nodeName === 'BUTTON') activarModal(event.target.id)
+})
 
 const init = async () => {
     const country = await filterCountries();
@@ -111,7 +164,7 @@ const chart = (local, country) => {
     };
 
     //se crea un gráfico de barra para mostrar sólo los países con más de 10.000 casos activos
-    var ctx = document.getElementById('covidChart');
+    const ctx = document.getElementById('covidChart').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
         data: chartDatos,

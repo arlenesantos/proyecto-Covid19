@@ -22,20 +22,22 @@ const postData = async (email,password) => {
 const getData = async () => {
     const response = await fetch("http://localhost:3000/api/total");
     const info = await response.json();
-    const data = info.data;    
+    const data = info.data;        
     return data;
-
 };
 
+//se filtra los países con más de 'x' casos (ejemplo: 10.000 o 100.000)
+//elegimos desplegar en el gráfico países con más de 100.000 casos  
 const filterCountries = async () => {
     const data = await getData();
     const country = data.filter((cases) => {
-        return cases.active > 1000000; // confirmar numero pq con 10000 = 74 cases        
+        return cases.active > 100000;       
     });    
     return country;
 
 }
 
+//a partir de los países filtrados, se obtiene un array con los nombres de los países. Tal array será ocupado en la propiedad 'labels' del gráfico
 const getCountry = async () => {
     var local = [];
     const data = await filterCountries();
@@ -45,7 +47,8 @@ const getCountry = async () => {
     return local;
 }
 
-const chart = (local, country) => {
+//se crea una función que recibe los países y sus datos para entonces crear un gráfico
+const chartGlobal = (local, country) => {
 
     //se almacena los datos para desplegarlos en el gráfico
     const chartDatos = {
@@ -78,8 +81,8 @@ const chart = (local, country) => {
         ],
     };
 
-    //se crea un gráfico de barra para mostrar sólo los países con más de 10.000 casos activos
-    var ctx = document.getElementById('covidChart');
+    //se crea un gráfico de barra para mostrar sólo los países con más casos activos
+    const ctx = document.getElementById('covidChart');
     new Chart(ctx, {
         type: 'bar',
         data: chartDatos,
@@ -101,43 +104,90 @@ const chart = (local, country) => {
     });
 }
 
-//se desplega toda la información de la API en una tabla
-const showTable = (country) =>{
-    console.log(country)
-    country.forEach(element => {
+//se agrega puntos en los números
+const numberWithDots = (number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+//se despliega toda la información de la API en una tabla
+const showTable = (country) =>{    
+    country.forEach((element) => {
     document.getElementById("dataTable").innerHTML +=   
         `<tr>
-         <td scope="row">${element.location}</td>
-         <td>${element.active}</td>
-         <td>${element.confirmed}</td>
-         <td>${element.deaths}</td>
-         <td>${element.recovered}</td>
-         <td><a class="showModal"href="#">Ver detalle</a></td>
+         <th scope="row">${element.location}</th>
+         <td>${numberWithDots(element.active)}</td>
+         <td>${numberWithDots(element.confirmed)}</td>
+         <td>${numberWithDots(element.deaths)}</td>
+         <td>${numberWithDots(element.recovered)}</td>
+         <td data-toggle="modal" data-target="#modal"><button id="${element.location}" type="button" class="btn btn-outline-secondary">Ver detalle</button></td>         
          </tr>`
     }); 
+};
+
+//se agrega un evento listener en cada link/botón para acceder al modal
+const activeBtn = (country) => {
+    country.forEach(element => {        
+        document.getElementById(`${element.location}`).addEventListener("click", () => {
+            document.querySelector(".modal-title").innerHTML = "";
+            document.querySelector(".modal-title").innerHTML = element.location;
+            getDataModal(element.location);                        
+        }); 
+    });
 }
+
+//se consume la API para el gráfico por país
+const getDataModal = async (country) => { 
+    //verificar problema en la API para países com espaço como: South Africa, una posible solución seria:     
+    //country.replace(' ', '%20');  
+    const response = await fetch(`http://localhost:3000/api/countries/${country}`);
+    const { data } = await response.json();    
+    chartCountry(data);
+};
+
+//esta variable deja el espacio para el gráfico vacío antes de llamar la función chartCountry
+let chartPais = null;
+
+//se crea una función que recibe los datos de cada país y en seguida se crea el gráfico
+const chartCountry = (data) => {        
+    const chartDatos = {
+        labels: ['casos activos', 'casos confirmados', 'casos muertos', 'casos recuperados'],
+        datasets: [
+            {                
+                data: [data.active, data.confirmed, data.deaths, data.recovered],
+                borderColor: ['red', 'yellow', 'gray', 'green'], 
+                backgroundColor: ['red', 'yellow', 'gray', 'green'],
+            },            
+        ],
+    };
+
+    const ctx = document.getElementById('covidPais');
+
+    //para posibilitar el cambio de gráfico entre los países, es necesario ocupar el método destroy para "excluir" el gráfico anterior y permitir desplegar un nuevo 
+    if (chartPais) {
+        chartPais.destroy();
+    };
     
+    chartPais = new Chart(ctx, {
+        type: 'bar',
+        data: chartDatos,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,                    
+                },
+                title: {
+                    display: false,                   
+                },
+            },
+        },
+    });
+};
 
-
-
-//Modal
-$('.showModal').on("click", () => {
-    $('#modal').modal('show');
-});
-
-const init = async () => {
+//se aplica una IIFE para ejecutar la aplicación inmediatamente
+const init = (async () => {
+    const total = await getData();
     const country = await filterCountries();
     const local = await getCountry();
-    chart(local, country);
-    showTable(country);
-}
-init();
-
-/*
-<th scope="row">${pais}</th>
-<td>${pais.activos}</td>
-<td>${pais.confirmados}</td>
-<td>${pais.muertos}</td>
-<td>${pais.recuperados}</td>
-<td><a id ="showModal"href="#">Ver detalle</a></td>
-*/
+    chartGlobal(local, country);
+    showTable(total);
+    activeBtn(total);    
+})();

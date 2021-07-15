@@ -22,7 +22,7 @@ const postData = async (email,password) => {
 const getData = async () => {
     const response = await fetch("http://localhost:3000/api/total");
     const info = await response.json();
-    const data = info.data;
+    const data = info.data;    
     return data;
 
 };
@@ -31,7 +31,7 @@ const filterCountries = async () => {
     const data = await getData();
     const country = data.filter((cases) => {
         return cases.active > 1000000; // confirmar numero pq con 10000 = 74 cases        
-    });
+    });    
     return country;
 
 }
@@ -43,13 +43,6 @@ const getCountry = async () => {
         local.push(element.location);
     });
     return local;
-}
-
-
-const init = async () => {
-    const country = await filterCountries();
-    const local = await getCountry();
-    chart(local, country);
 }
 
 const chart = (local, country) => {
@@ -108,13 +101,43 @@ const chart = (local, country) => {
     });
 }
 
+//se desplega toda la información de la API en una tabla
+const showTable = (country) =>{
+    console.log(country)
+    country.forEach(element => {
+    document.getElementById("dataTable").innerHTML +=   
+        `<tr>
+         <td scope="row">${element.location}</td>
+         <td>${element.active}</td>
+         <td>${element.confirmed}</td>
+         <td>${element.deaths}</td>
+         <td>${element.recovered}</td>
+         <td><a class="showModal"href="#">Ver detalle</a></td>
+         </tr>`
+    }); 
+}
+    
+
 
 
 //Modal
-$('#showModal').on("click", () => {
+$('.showModal').on("click", () => {
     $('#modal').modal('show');
 });
 
-
+const init = async () => {
+    const country = await filterCountries();
+    const local = await getCountry();
+    chart(local, country);
+    showTable(country);
+}
 init();
 
+/*
+<th scope="row">${pais}</th>
+<td>${pais.activos}</td>
+<td>${pais.confirmados}</td>
+<td>${pais.muertos}</td>
+<td>${pais.recuperados}</td>
+<td><a id ="showModal"href="#">Ver detalle</a></td>
+*/

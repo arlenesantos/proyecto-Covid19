@@ -33,7 +33,6 @@ const filterCountries = async () => {
         return cases.active > 1000000; // confirmar numero pq con 10000 = 74 cases        
     });
     return country;
-
 }
 
 const getCountry = async () => {
@@ -45,10 +44,36 @@ const getCountry = async () => {
     return local;
 }
 
+const numberWithDots = (number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+const renderTable = (countries) => {
+    const table = document.getElementById("tableBody");
+    countries.forEach( country => {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `
+        <th scope="row">${numberWithDots(country.location)}</th>
+        <td>${numberWithDots(country.active)}</td>
+        <td>${numberWithDots(country.confirmed)}</td>
+        <td>${numberWithDots(country.deaths)}</td>
+        <td>${numberWithDots(country.recovered)}</td>
+        <td><a id="showModal" href="#">Ver detalle</a></td>
+        `;
+        table.appendChild(tr);
+    })
+
+    // Muestra la Tabla que estaba escondida
+    const mainTable = document.getElementById("mainTable");
+    mainTable.classList.remove("d-none");
+}
+
+const chartPais = () => {
+    const ctx = document.getElementById('covidPais');
+}
 
 const init = async () => {
     const country = await filterCountries();
     const local = await getCountry();
+    renderTable(country)
     chart(local, country);
 }
 

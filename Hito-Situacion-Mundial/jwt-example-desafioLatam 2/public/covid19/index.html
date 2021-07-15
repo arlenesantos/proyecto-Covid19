@@ -41,7 +41,7 @@
     </div>
 
     <!--Table-->
-    <div class="container">
+    <div id="mainTable" class="container d-none">
         <table class="table table-striped my-5">
             <thead>
                 <tr>
@@ -53,15 +53,7 @@
                     <th scope="col">Ver más</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr id="dataTable">
-                    <th scope="row">${paiss}</th>
-                    <td>${pais.activos}</td>
-                    <td>${pais.confirmados}</td>
-                    <td>${pais.muertos}</td>
-                    <td>${pais.recuperados}</td>
-                    <td><a id ="showModal"href="#">Ver detalle</a></td>
-                </tr>
+            <tbody id="tableBody">
             </tbody>
         </table>
     </div>

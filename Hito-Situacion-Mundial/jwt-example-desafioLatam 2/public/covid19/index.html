@@ -37,7 +37,7 @@
 
     <!--Chart-->
     <div class="container">
-        <canvas id="covidChart" style="width:400px; height:400px; margin-top: 50px;"></canvas>
+        <canvas id="covidChart" style="margin-top: 50px;"></canvas>
     </div>
 
     <!--Table-->
@@ -53,15 +53,7 @@
                     <th scope="col">Ver más</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr id="dataTable">
-                    <th scope="row">${paiss}</th>
-                    <td>${pais.activos}</td>
-                    <td>${pais.confirmados}</td>
-                    <td>${pais.muertos}</td>
-                    <td>${pais.recuperados}</td>
-                    <td><a id ="showModal"href="#">Ver detalle</a></td>
-                </tr>
+            <tbody id="dataTable">
             </tbody>
         </table>
     </div>
@@ -71,13 +63,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">${pais}</h5>
+                    <h6 class="modal-title"></h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body d-flex justify-content-center">
-                    <canvas id="covidPais" style="width:300px; height:300px; margin-top: 20px;"></canvas>
+                    <canvas id="covidPais" style="margin-top: 20px;"></canvas>
                 </div>
             </div>
         </div>

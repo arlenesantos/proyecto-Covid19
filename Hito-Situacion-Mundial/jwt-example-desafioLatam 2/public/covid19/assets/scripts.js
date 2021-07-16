@@ -140,6 +140,8 @@ const activeBtn = (country) => {
     });
 }
 
+
+
 //se consume la API para el gráfico por país
 const getDataModal = async (country) => { 
     //verificar problema en la API para países com espaço como: South Africa, una posible solución seria:     
@@ -148,6 +150,45 @@ const getDataModal = async (country) => {
     const { data } = await response.json();    
     chartCountry(data);
 };
+
+
+/* Intentando hacer una tontería de modal
+
+const CountryInfo = async (country) => {​​​​​​​
+    try {​​​​​​​
+        const response = await fetch( `/api/countries/ ${​​​​​​​country}​​​​​​​ ` )
+        const {​​​​​​​data}​​​​​​​ = await response.json()
+        showModal(data)
+}​​​​​​​   catch (err) {​​​​​​​
+    console .error( `Error: ${​​​​​​​err}​​​​​​​ ` )
+}​​​​​​​
+}​​​​​​​
+
+
+const showModal = (data) => {
+  $("#countryModal").modal("show");
+  $(".modal-title").text(data.location);
+  const { confirmed, deaths, recovered, active } = data;
+  const modalCovidChart = document.getElementById("modalCovidChart");
+  new Chart(modalCovidChart, {
+    type: "pie",
+    data: {
+      labels: ["activos", "confirmados", "muertos", "recuperados"],
+      datasets: [
+        {
+          data: [active, confirmed, deaths, recovered],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 205, 86)",
+            "rgb(201, 203, 207)",
+            "rgb(75, 192, 192)",
+          ],
+        },
+      ],
+    },
+  });
+};
+*/
 
 //esta variable deja el espacio para el gráfico vacío antes de llamar la función chartCountry
 let chartPais = null;

@@ -26,13 +26,13 @@ const getData = async () => {
     return data;
 };
 
-//se filtra los países con más de 'x' casos (ejemplo: 10.000 o 100.000)
-//elegimos desplegar en el gráfico países con más de 100.000 casos  
+//se filtra los países con más de 10.000 casos 
 const filterCountries = async () => {
     const data = await getData();
     const country = data.filter((cases) => {
-        return cases.active > 100000;       
-    });    
+        return cases.active > 10000;       
+    }); 
+    console.log(country)   
     return country;
 
 }
@@ -57,26 +57,26 @@ const chartGlobal = (local, country) => {
             {
                 label: 'casos activos',
                 data: country.map((element) => element.active),
-                borderColor: 'red',
-                backgroundColor: 'red',
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgb(255, 99, 132)',
             },
             {
                 label: 'casos confirmados',
                 data: country.map((element) => element.confirmed),
-                borderColor: 'yellow',
-                backgroundColor: 'yellow',
+                borderColor: 'rgb(255, 205, 86)',
+                backgroundColor: 'rgb(255, 205, 86)',
             },
             {
                 label: 'casos muertos',
                 data: country.map((element) => element.deaths),
-                borderColor: 'gray',
-                backgroundColor: 'gray',
+                borderColor: 'rgb(201, 203, 207)',
+                backgroundColor: 'rgb(201, 203, 207)',
             },
             {
                 label: 'casos recuperados',
                 data: country.map((element) => element.recovered),
-                borderColor: 'green',
-                backgroundColor: 'green',
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgb(75, 192, 192)',
             }
         ],
     };
@@ -98,8 +98,15 @@ const chartGlobal = (local, country) => {
                     font: {
                         size: 20,
                     }
-                },
+                },                
             },
+            scales: {
+                x:{
+                    min: 0,
+                    max: 77,
+                }
+
+            }
         },
     });
 }
@@ -152,8 +159,8 @@ const chartCountry = (data) => {
         datasets: [
             {                
                 data: [data.active, data.confirmed, data.deaths, data.recovered],
-                borderColor: ['red', 'yellow', 'gray', 'green'], 
-                backgroundColor: ['red', 'yellow', 'gray', 'green'],
+                borderColor: ['rgb(255, 99, 132)', 'rgb(255, 205, 86)', 'rgb(201, 203, 207)', 'rgb(75, 192, 192)'], 
+                backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 205, 86)', 'rgb(201, 203, 207)', 'rgb(75, 192, 192)'],
             },            
         ],
     };
@@ -166,13 +173,14 @@ const chartCountry = (data) => {
     };
     
     chartPais = new Chart(ctx, {
-        type: 'bar',
+        type: 'pie',
         data: chartDatos,
         options: {
             responsive: true,
             plugins: {
                 legend: {
-                    display: false,                    
+                    display: true,
+                    position: 'top',                    
                 },
                 title: {
                     display: false,                   

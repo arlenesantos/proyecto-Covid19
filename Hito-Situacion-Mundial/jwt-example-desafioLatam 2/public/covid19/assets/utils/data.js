@@ -30,11 +30,20 @@ const getCountry = async () => {
 
 //se consume la API para el gráfico por país
 const getDataModal = async (country) => { 
-    //verificar problema en la API para países com espaço como: South Africa, una posible solución seria:     
-    //country.replace(' ', '%20');  
-    const response = await fetch(`http://localhost:3000/api/countries/${country}`);
-    const { data } = await response.json();    
-    chartCountry(data);
+    const msg = document.getElementById("msg-error");
+    try {
+        msg.innerHTML = '';
+        const response = await fetch(`http://localhost:3000/api/countries/${country}`);
+        const { data } = await response.json(); 
+        if(data.active == null || data.active == undefined || Object.keys(data).length === 0) {
+            msg.innerHTML = 'La información de la API a la que deseas acceder tiene un problema para mostrar los datos de este país';
+            console.log('el país que deseas ver posee problemas para mostrar su modal')
+        }
+        chartCountry(data);
+    } catch (err) {
+    msg.innerHTML = "Nuestras disculpas, los datos tienen errores, intente solicitarlos una vez más.";
+    }
 };
 
 export { getData, filterCountries, getCountry, getDataModal }
+  

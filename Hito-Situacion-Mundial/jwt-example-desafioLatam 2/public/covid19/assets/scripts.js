@@ -18,6 +18,10 @@ const init = (async () => {
     const total = await getData();
     const country = await filterCountries();
     const local = await getCountry();
+
+    document.getElementById("loader").classList.add("d-none");
+    document.getElementById("mainTable").classList.remove("d-none");
+    
     chartGlobal(local, country);
     showTable(total);
     activeBtn(total);    

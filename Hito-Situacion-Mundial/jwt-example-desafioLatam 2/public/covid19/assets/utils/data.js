@@ -12,8 +12,7 @@ const filterCountries = async () => {
     const data = await getData();
     const country = data.filter((cases) => {
         return cases.active > 10000;       
-    }); 
-    console.log(country)   
+    });        
     return country;
 
 }

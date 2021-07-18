@@ -19,68 +19,121 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Covid-19</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
-    
+
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Iniciar sesión</a>
+                    <a id="openModal" class="nav-link" href="#" data-toggle="modal" data-target="#modalLogin">Iniciar
+                        sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Situación Chile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Cerrar sesión</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!--Chart-->
-    <div class="container">
-        <!-- Loader -->
-        <div id="loader" class="row justify-content-center mt-5">
-            <div class="spinner-border column" role="status">
-                <span class="sr-only text-center">Loading...</span>
-            </div>
-        </div>
-        <canvas id="covidChart" style="margin-top: 50px;"></canvas>
-    </div>
-
-    <!--Table-->
-    <div class="container">
-        <table id='mainTable' class="table table-striped my-5 d-none">
-            <thead>
-                <tr>
-                    <th scope="col">País</th>
-                    <th scope="col">Casos Activos</th>
-                    <th scope="col">Casos Confirmados</th>
-                    <th scope="col">Casos Muertos</th>
-                    <th scope="col">Casos Recuperados</th>
-                    <th scope="col">Ver más</th>
-                </tr>
-            </thead>
-            <tbody id="dataTable">
-            </tbody>
-        </table>
-    </div>
-
-    <!--Modal-->
-    <div id="modal" class="modal" tabindex="-1">
+    <!--Modal login-->
+    <div id="modalLogin" class="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h6 class="modal-title"></h6>
+                    <h6 class="modal-title">Login</h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body d-flex flex-column justify-content-center">
-                    <p id="msg-error" class="text-danger"></p>
-                    <canvas id="covidPais" style="margin-top: 20px;"></canvas>
+                    <form id="formLogin">
+                        <div class="form-group">
+                            <label for="email">Ingrese su correo</label>
+                            <input type="email" class="form-control" id="email"
+                                aria-describedby="emailHelp">                            
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Ingrese su contraseña</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>                       
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <main>
+        <section id="mundial">
+            <!--Chart Mundial-->
+            <div class="container">
+                <!-- Loader -->
+                <div id="loader" class="row justify-content-center mt-5">
+                    <div class="spinner-border column" role="status">
+                        <span class="sr-only text-center">Loading...</span>
+                    </div>
+                </div>
+                <canvas id="covidChart" style="margin-top: 50px;"></canvas>
+            </div>
+
+            <!--Table-->
+            <div class="container">
+                <table id='mainTable' class="table table-striped my-5 d-none">
+                    <thead>
+                        <tr>
+                            <th scope="col">País</th>
+                            <th scope="col">Casos Activos</th>
+                            <th scope="col">Casos Confirmados</th>
+                            <th scope="col">Casos Muertos</th>
+                            <th scope="col">Casos Recuperados</th>
+                            <th scope="col">Ver más</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTable">
+                    </tbody>
+                </table>
+            </div>
+
+            <!--Modal-->
+            <div id="modal" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title"></h6>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body d-flex flex-column justify-content-center">
+                            <p id="msg-error" class="text-danger"></p>
+                            <canvas id="covidPais" style="margin-top: 20px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="chile">
+            <!--Chart Chile-->
+            <div class="container">
+                <!-- Loader -->
+                <div id="loader" class="row justify-content-center mt-5">
+                    <div class="spinner-border column" role="status">
+                        <span class="sr-only text-center">Loading...</span>
+                    </div>
+                </div>
+                <canvas id="covidChile" style="margin-top: 50px;"></canvas>
+            </div>
+        </section>
+
+    </main>
 
 
     <!--jQuery v. 3.6.0 -->
@@ -93,7 +146,8 @@
     <!--ChartJS-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
     <!--Javascript del proyecto-->
-    <script type="module" src="./assets/scripts.js"></script>
+    <script type="module" src="./assets/scripts.js"></script>    
+    
 
 </body>
 

@@ -28,14 +28,14 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a id="openModal" class="nav-link" href="#" data-toggle="modal" data-target="#modalLogin">Iniciar
+                <li id="iniciar" class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#modalLogin">Iniciar
                         sesión</a>
                 </li>
-                <li class="nav-item">
+                <li id="chile" class="nav-item d-none">
                     <a class="nav-link" href="#">Situación Chile</a>
                 </li>
-                <li class="nav-item">
+                <li id="cerrar" class="nav-item d-none">
                     <a class="nav-link" href="#">Cerrar sesión</a>
                 </li>
             </ul>
@@ -118,19 +118,10 @@
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section id="chile">
-            <!--Chart Chile-->
-            <div class="container">
-                <!-- Loader -->
-                <div id="loader" class="row justify-content-center mt-5">
-                    <div class="spinner-border column" role="status">
-                        <span class="sr-only text-center">Loading...</span>
-                    </div>
-                </div>
-                <canvas id="covidChile" style="margin-top: 50px;"></canvas>
-            </div>
+        </section>        
+        
+        <section id="chile">          
+            <!--Chart Chile-->  
         </section>
 
     </main>
@@ -146,7 +137,8 @@
     <!--ChartJS-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
     <!--Javascript del proyecto-->
-    <script type="module" src="./assets/scripts.js"></script>    
+    <script type="module" src="./assets/scripts.js"></script>
+    <script type="module" src="./assets/utils/login.js"></script>    
     
 
 </body>

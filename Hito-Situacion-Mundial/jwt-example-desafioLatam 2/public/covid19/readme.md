@@ -21,9 +21,7 @@
 
 **V3.0**
 * *Se aplican mejoras en el proyecto como cambio de estilo y de colores de los gráficos*
-* *Se implementa paginación en la tabla.*
 * *Se agrega una estructura de control para manejar el error de los países con espacio (la API no entrega dados de países com espacios en sus nombres).*
-* *Para los países con espacio en sus nombres, se consume los datos directamente de herokuapp*
 * *Se estructura el código del proyecto en módulos.*
 
 **V4.0**

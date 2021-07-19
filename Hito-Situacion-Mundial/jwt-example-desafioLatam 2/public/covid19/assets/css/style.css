@@ -1,0 +1,7 @@
+body{
+    background: #007bff12;
+}
+div#pages_table {
+    justify-content: space-around;
+    margin-top: -40px;
+}

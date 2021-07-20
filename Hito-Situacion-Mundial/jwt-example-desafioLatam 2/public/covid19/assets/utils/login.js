@@ -48,6 +48,17 @@ const login = () => {
     validarToken();
 }
 
+
+let cerrarSesion = document.getElementById('cerrar')
+//Se crea el evento al hacer clic en cerrar sesión de eliminar el token y recargar la página al inicio.
+  $(cerrarSesion).click((e) => {
+        e.preventDefault();
+        //localStorage.removeItem('token');
+        localStorage.clear();
+        location.reload();
+        //$("#cerrar-sesion").fadeIn();
+    });
+
 export { login };
 
 

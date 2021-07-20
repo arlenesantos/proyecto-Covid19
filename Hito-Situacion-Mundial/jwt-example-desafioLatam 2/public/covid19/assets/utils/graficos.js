@@ -33,6 +33,11 @@ const chartGlobal = (local, country) => {
         ],
     };
 
+        //Posibilita el cambio de gráfico, es necesario ocupar el método destroy para "excluir" el gráfico global y permitir desplegar un nuevo 
+        if (chileChart) {
+            chileChart.destroy();
+        };
+
     //se crea un gráfico de barra para mostrar sólo los países con más casos activos
     const ctx = document.getElementById('covidChart');
     globalChart=new Chart(ctx, {
@@ -115,17 +120,30 @@ const chartChile = async (datas,date) => {
     const chartDatos = {
         labels: fechas,
         datasets: [
+            {
+                label: 'Confirmados',
+                data: data[0],
+                borderColor: 'rgb(255, 205, 86)',
+                backgroundColor: 'rgb(255, 205, 86)',
+            },
             {                
-                data: [data.map((element) => element[0]), data.map((element) => element[1]), data.map((element) => element[2])],
-                borderColor: ['rgb(255, 205, 86)', 'rgb(201, 203, 207)', 'rgb(75, 192, 192)'], 
-                backgroundColor: ['rgb(255, 205, 86)', 'rgb(201, 203, 207)', 'rgb(75, 192, 192)'],
+                label: 'Muertos',
+                data: data[1],
+                borderColor: 'rgb(201, 203, 207)',
+                backgroundColor: 'rgb(201, 203, 207)',
             },            
+            {                
+                label: 'Recuperados',
+                data: data[2],
+                borderColor: 'rgb(75, 192, 192)', 
+                backgroundColor: 'rgb(75, 192, 192)',
+            }      
         ],
     };
 
     const ctx = document.getElementById('covidChart');
 
-    //para posibilitar el cambio de gráfico entre los países, es necesario ocupar el método destroy para "excluir" el gráfico anterior y permitir desplegar un nuevo 
+    //Posibilita el cambio de gráfico, es necesario ocupar el método destroy para "excluir" el gráfico global y permitir desplegar un nuevo 
     if (globalChart) {
         globalChart.destroy();
     };
@@ -141,7 +159,11 @@ const chartChile = async (datas,date) => {
                     position: 'top',                    
                 },
                 title: {
-                    display: false,                   
+                    display: true,
+                    text: 'Comportamiento del Covid-19 en Chile',
+                    font: {
+                        size: 20,
+                    }
                 },
             },
         },

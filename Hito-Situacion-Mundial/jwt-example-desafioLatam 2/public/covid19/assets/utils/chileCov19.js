@@ -4,14 +4,15 @@ const btnSituacionChile = document.querySelector('#chile a');
 
 
 btnSituacionChile.addEventListener('click',async ()=>{
+    document.getElementById("loader").classList.remove("d-none");
+    document.getElementById("mainTable").classList.add("d-none");
     let token=null;
     (()=>{
         token = localStorage.getItem('jwt-token');
     })();
     await getDataChile(token);
+    document.getElementById("loader").classList.add("d-none");
     await chartChile(dataChile,fechas);
-    console.log(fechas);
-    console.log(dataChile);
 })
 
 
@@ -74,22 +75,25 @@ const getRecovered = async (jwt) => {
 
 //Se unifica la información obtenida anteriormente
 export const getDataChile = async (jwt)=>{
-    const confirmados = await getConfirmed(jwt);
-    const muertos = await getDeaths(jwt);
-    const recuperados = await getRecovered(jwt);
-    confirmados.forEach((e)=>{
-        fechas.push(e.date)
-    })
-    confirmados.forEach((e)=>{
-        arrConfirmados.push(e.total)
-    })
-    muertos.forEach((e)=>{
-        arrMuertos.push(e.total)
-    })
-    recuperados.forEach((e)=>{
-        arrRecuperados.push(e.total)
-    })
-    dataChile.push(arrConfirmados);
-    dataChile.push(arrMuertos);
-    dataChile.push(arrRecuperados);
+    if(dataChile.length==3){
+    }else{
+        const confirmados = await getConfirmed(jwt);
+        const muertos = await getDeaths(jwt);
+        const recuperados = await getRecovered(jwt);
+        confirmados.forEach((e)=>{
+            fechas.push(e.date)
+        })
+        confirmados.forEach((e)=>{
+            arrConfirmados.push(e.total)
+        })
+        muertos.forEach((e)=>{
+            arrMuertos.push(e.total)
+        })
+        recuperados.forEach((e)=>{
+            arrRecuperados.push(e.total)
+        })
+        dataChile.push(arrConfirmados);
+        dataChile.push(arrMuertos);
+        dataChile.push(arrRecuperados);    
+    };
 };

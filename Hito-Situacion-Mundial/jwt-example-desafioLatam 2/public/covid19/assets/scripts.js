@@ -15,7 +15,20 @@ const activeBtn = (country) => {
             getDataModal(element.location);                        
         }); 
     });
-}
+};
+
+const btnHome = document.querySelector('#home a');
+
+
+btnHome.addEventListener('click',async ()=>{
+    document.getElementById("loader").classList.remove("d-none");
+    document.getElementById("mainTable").classList.remove("d-none");
+    const country = await filterCountries();
+    const local = await getCountry();
+    document.getElementById("loader").classList.add("d-none");
+    chartGlobal(local, country);
+});
+
 
 //se aplica una IIFE para ejecutar la aplicación inmediatamente
 const init = (async () => {

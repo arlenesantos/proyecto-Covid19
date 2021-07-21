@@ -2,19 +2,15 @@ import {chartChile} from './graficos.js'
 
 const btnSituacionChile = document.querySelector('#chile a');
 
-
 btnSituacionChile.addEventListener('click',async ()=>{
     document.getElementById("loader").classList.remove("d-none");
     document.getElementById("mainTable").classList.add("d-none");
     let token=null;
-    (()=>{
-        token = localStorage.getItem('jwt-token');
-    })();
+    token = localStorage.getItem('jwt-token');
     await getDataChile(token);
     document.getElementById("loader").classList.add("d-none");
     await chartChile(dataChile,fechas);
-})
-
+});
 
 let dataChile=[];
 let arrConfirmados=[];

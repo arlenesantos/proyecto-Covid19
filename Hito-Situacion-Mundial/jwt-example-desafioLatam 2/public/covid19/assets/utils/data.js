@@ -46,4 +46,3 @@ const getDataModal = async (country) => {
 };
 
 export { getData, filterCountries, getCountry, getDataModal }
-  

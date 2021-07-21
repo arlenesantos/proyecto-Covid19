@@ -17,6 +17,7 @@ const filterCountries = async () => {
 
 }
 
+
 //a partir de los países filtrados, se obtiene un array con los nombres de los países. Tal array será ocupado en la propiedad 'labels' del gráfico
 const getCountry = async () => {
     var local = [];

@@ -1,10 +1,10 @@
 import { chartGlobal } from "./utils/graficos.js"
 import { getData, filterCountries, getCountry, getDataModal } from "./utils/data.js"
 import { showTable  } from "./utils/render.js"
-import { login  } from "./utils/login.js"
+import login from "./utils/login.js"
 import * as Chile from "./utils/chileCov19.js"
 
-login();
+
 
 //se agrega un evento listener en cada link/botón para acceder al modal
 const activeBtn = (country) => {

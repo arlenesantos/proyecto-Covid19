@@ -1,5 +1,5 @@
 
-const login = () => {
+const login = (() => {
 
     //se implementa la lógica para obtener el JWT cuando se ingrese el correo y contraseña a través del formulario
     $('#formLogin').submit(async (event) => {
@@ -39,16 +39,25 @@ const login = () => {
         //se oculta la opción del menú 'Iniciar' y se agregan las opciones 'Situación Chile' y 'Cerrar sesión'
         if (token == "undefined"){
             alert("Email o contraseña incorrectos. Intente nuevamente!");
+            localStorage.clear();
         } else if (token) {
             document.getElementById('iniciar').classList.add('d-none');
             document.getElementById('chile').classList.remove('d-none');
             document.getElementById('cerrar').classList.remove('d-none');            
         }
+        
     };
+    let cerrarSesion = document.getElementById("cerrar");
+    $(cerrarSesion).click((e) => {
+      e.preventDefault();
+      localStorage.clear();
+      location.reload();
+    });
     validarToken();
-}
+})()
 
-export { login };
+
+export default login;
 
 
 

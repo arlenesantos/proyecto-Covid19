@@ -1,3 +1,5 @@
+//se inicia la variable contenedora del chart Chile
+let chileChart = null;
 let globalChart=null;
 //se crea una función que recibe los países y sus datos para entonces crear un gráfico
 const chartGlobal = (local, country) => {
@@ -34,6 +36,9 @@ const chartGlobal = (local, country) => {
     };
 
         //Posibilita el cambio de gráfico, es necesario ocupar el método destroy para "excluir" el gráfico global y permitir desplegar un nuevo 
+        if (globalChart) {
+            globalChart.destroy();
+        };
         if (chileChart) {
             chileChart.destroy();
         };
@@ -110,8 +115,6 @@ const chartCountry = (data) => {
 };
 
 
-//se inicia la variable contenedora del chart Chile
-let chileChart = null;
 
 //se crea una función que recibe los datos de cada país y en seguida se crea el gráfico
 const chartChile = async (datas,date) => {   
@@ -146,6 +149,9 @@ const chartChile = async (datas,date) => {
     //Posibilita el cambio de gráfico, es necesario ocupar el método destroy para "excluir" el gráfico global y permitir desplegar un nuevo 
     if (globalChart) {
         globalChart.destroy();
+    };
+    if (chileChart) {
+        chileChart.destroy();
     };
     
     chileChart = new Chart(ctx, {

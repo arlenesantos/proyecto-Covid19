@@ -17,8 +17,8 @@ const activeBtn = (country) => {
     });
 };
 
+//se agrega funcionalidad al link Home del menú
 const btnHome = document.querySelector('#home a');
-
 
 btnHome.addEventListener('click',async ()=>{
     document.getElementById("loader").classList.remove("d-none");

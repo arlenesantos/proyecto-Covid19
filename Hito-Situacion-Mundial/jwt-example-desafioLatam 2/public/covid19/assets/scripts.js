@@ -10,8 +10,8 @@ import * as Chile from "./utils/chileCov19.js"
 const activeBtn = (country) => {
     country.forEach(element => {        
         document.getElementById(`${element.location}`).addEventListener("click", () => {
-            document.querySelector(".modal-title").innerHTML = "";
-            document.querySelector(".modal-title").innerHTML = element.location;
+            document.querySelector("#modalPais").innerHTML = "";
+            document.querySelector("#modalPais").innerHTML = element.location;
             getDataModal(element.location);                        
         }); 
     });

@@ -2,6 +2,8 @@ import { chartGlobal } from "./utils/graficos.js"
 import { getData, filterCountries, getCountry, getDataModal } from "./utils/data.js"
 import { showTable  } from "./utils/render.js"
 import login from "./utils/login.js"
+import * as Chile from "./utils/chileCov19.js"
+
 
 
 //se agrega un evento listener en cada link/botón para acceder al modal
@@ -13,7 +15,20 @@ const activeBtn = (country) => {
             getDataModal(element.location);                        
         }); 
     });
-}
+};
+
+const btnHome = document.querySelector('#home a');
+
+
+btnHome.addEventListener('click',async ()=>{
+    document.getElementById("loader").classList.remove("d-none");
+    document.getElementById("mainTable").classList.remove("d-none");
+    const country = await filterCountries();
+    const local = await getCountry();
+    document.getElementById("loader").classList.add("d-none");
+    chartGlobal(local, country);
+});
+
 
 //se aplica una IIFE para ejecutar la aplicación inmediatamente
 const init = (async () => {

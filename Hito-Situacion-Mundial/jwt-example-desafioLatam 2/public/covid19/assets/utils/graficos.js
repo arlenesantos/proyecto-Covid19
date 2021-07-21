@@ -1,3 +1,4 @@
+let globalChart=null;
 //se crea una función que recibe los países y sus datos para entonces crear un gráfico
 const chartGlobal = (local, country) => {
 
@@ -32,9 +33,14 @@ const chartGlobal = (local, country) => {
         ],
     };
 
+        //Posibilita el cambio de gráfico, es necesario ocupar el método destroy para "excluir" el gráfico global y permitir desplegar un nuevo 
+        if (chileChart) {
+            chileChart.destroy();
+        };
+
     //se crea un gráfico de barra para mostrar sólo los países con más casos activos
     const ctx = document.getElementById('covidChart');
-    new Chart(ctx, {
+    globalChart=new Chart(ctx, {
         type: 'bar',
         data: chartDatos,
         options: {
@@ -103,4 +109,65 @@ const chartCountry = (data) => {
     });
 };
 
-export { chartGlobal, chartCountry }
+
+//se inicia la variable contenedora del chart Chile
+let chileChart = null;
+
+//se crea una función que recibe los datos de cada país y en seguida se crea el gráfico
+const chartChile = async (datas,date) => {   
+    const fechas = await date
+    const data = await datas
+    const chartDatos = {
+        labels: fechas,
+        datasets: [
+            {
+                label: 'Confirmados',
+                data: data[0],
+                borderColor: 'rgb(255, 205, 86)',
+                backgroundColor: 'rgb(255, 205, 86)',
+            },
+            {                
+                label: 'Muertos',
+                data: data[1],
+                borderColor: 'rgb(201, 203, 207)',
+                backgroundColor: 'rgb(201, 203, 207)',
+            },            
+            {                
+                label: 'Recuperados',
+                data: data[2],
+                borderColor: 'rgb(75, 192, 192)', 
+                backgroundColor: 'rgb(75, 192, 192)',
+            }      
+        ],
+    };
+
+    const ctx = document.getElementById('covidChart');
+
+    //Posibilita el cambio de gráfico, es necesario ocupar el método destroy para "excluir" el gráfico global y permitir desplegar un nuevo 
+    if (globalChart) {
+        globalChart.destroy();
+    };
+    
+    chileChart = new Chart(ctx, {
+        type: 'line',
+        data: chartDatos,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',                    
+                },
+                title: {
+                    display: true,
+                    text: 'Comportamiento del Covid-19 en Chile',
+                    font: {
+                        size: 20,
+                    }
+                },
+            },
+        },
+    });
+};
+
+export { chartGlobal, chartCountry, chartChile }

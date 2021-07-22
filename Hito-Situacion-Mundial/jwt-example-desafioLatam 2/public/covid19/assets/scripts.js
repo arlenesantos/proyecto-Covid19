@@ -23,18 +23,24 @@ const btnHome = document.querySelector('#home a');
 btnHome.addEventListener('click',async ()=>{
     document.getElementById("loader").classList.remove("d-none");
     document.getElementById("mainTable").classList.remove("d-none");
-    const country = await filterCountries();
-    const local = await getCountry();
+    //Se busca corroborar que exista la información previo a re-poblar el gráfico
+    if(local!=null&&country!=null){
+        chartGlobal(local, country);
+    }else{
+        country = await filterCountries();
+        local = await getCountry();
+        chartGlobal(local, country);
+    }
     document.getElementById("loader").classList.add("d-none");
-    chartGlobal(local, country);
 });
-
-
+//se inician los array contenedores de la data
+let local = null;
+let country=null;
 //se aplica una IIFE para ejecutar la aplicación inmediatamente
 const init = (async () => {
     const total = await getData();
-    const country = await filterCountries();
-    const local = await getCountry();
+    country = await filterCountries();
+    local = await getCountry();
 
     document.getElementById("loader").classList.add("d-none");
     document.getElementById("mainTable").classList.remove("d-none");

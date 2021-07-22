@@ -39,7 +39,7 @@
 * *Se realizan pruebas iniciales en el código.*
 
 **V2.0**
-* *Se crea una sesión que muestre el avance diario de la pandemia en Chile por medio de un gráfico de línea, consumiendo las respectivas APIs.*
+* *Se crea una página que muestre el avance diario de la pandemia en Chile por medio de un gráfico de línea, consumiendo las respectivas APIs.*
 * *Se ocultan el gráfico de todos los países y también la tabla.*
 * *Se verifica y valida que el código funciona correctamente.*
 

@@ -116,7 +116,7 @@ const chartCountry = (data) => {
 
 
 
-//se crea una función que recibe los datos de cada país y en seguida se crea el gráfico
+//se crea una función que recibe los datos de Chile y en seguida se crea un gráfico de línea
 const chartChile = async (datas,date) => {   
     const fechas = await date
     const data = await datas

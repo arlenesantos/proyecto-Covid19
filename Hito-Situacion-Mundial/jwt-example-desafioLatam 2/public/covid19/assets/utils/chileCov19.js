@@ -5,11 +5,12 @@ const btnSituacionChile = document.querySelector('#chile a');
 btnSituacionChile.addEventListener('click',async ()=>{
     document.getElementById("loader").classList.remove("d-none");
     document.getElementById("mainTable").classList.add("d-none");
-    let token=null;
-    token = localStorage.getItem('jwt-token');
+    document.getElementById("covidChart").classList.add("d-none");
+    let token = localStorage.getItem('jwt-token');
     await getDataChile(token);
     document.getElementById("loader").classList.add("d-none");
     await chartChile(dataChile,fechas);
+    document.getElementById("covidChart").classList.remove("d-none");
 });
 
 let dataChile=[];
